@@ -6,22 +6,6 @@ A beautiful, Postman/Swagger-style debug logger for Flutter.
 
 Every field is **optional**: log just an endpoint for a quick trace, or include the method, cURL command, request body, and response for a full breakdown. Nothing runs in release builds unless explicitly enabled.
 
-```text
-┌────────────────────────────────────────────────────────────────────┐
-│  ● [POST] Create Post · 401
-│  /posts
-├────────────────────────────────────────────────────────────────────┤
-│  cURL
-│    curl -X 'POST' '/posts' -d '{"title":"Hello world"}'
-├────────────────────────────────────────────────────────────────────┤
-│  Request Body
-│    { "title": "Hello world" }
-├────────────────────────────────────────────────────────────────────┤
-│  Response Body
-│    { "error": "Unauthorized" }
-└────────────────────────────────────────────────────────────────────┘
-```
-
 <p align="center">
   <img src="assets/console_screenshot.png" width="700" alt="Console Output"/>
   <br/><br/>
