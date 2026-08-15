@@ -1,0 +1,21 @@
+name: ash_logger
+description: A colorful, Postman/Swagger-style debug logger for Flutter — debug prints, API success/error, cURL, and socket in/out logging, fully optional fields, themeable, and safe in release builds.
+version: 0.2.0
+homepage: https://github.com/soft-ash/ash_logger
+repository: https://github.com/soft-ash/ash_logger
+issue_tracker: https://github.com/soft-ash/ash_logger/issues
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: '>=3.10.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
