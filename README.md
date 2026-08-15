@@ -22,9 +22,11 @@ Every field is **optional**: log just an endpoint for a quick trace, or include 
 └────────────────────────────────────────────────────────────────────┘
 ```
 
-![Console Output](assets/console_screenshot.png)
-<br/>
-![UI Viewer](assets/ui_screenshot.png)
+<p align="center">
+  <img src="assets/console_screenshot.png" width="700" alt="Console Output"/>
+  <br/><br/>
+  <img src="assets/ui_screenshot.png" width="300" alt="UI Viewer"/>
+</p>
 
 ## Features
 
