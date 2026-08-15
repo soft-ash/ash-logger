@@ -149,6 +149,25 @@ Navigator.push(context, MaterialPageRoute(
 ));
 ```
 
+## Project Structure
+
+This package follows Clean Architecture principles, making it highly modular and easy to extend:
+
+```text
+lib/
+├── ash_logger.dart         # Public API (AshLog)
+└── src/
+    ├── ash_log.dart        # Entry point and static methods
+    ├── config/             # Theme and configuration models
+    ├── core/               # Enums (AshLevel, AshLogType, ANSI colors)
+    ├── data/               # Repositories (InMemoryAshLogRepository)
+    ├── domain/             # Entities (AshLogEntry, AshLogRepository interface)
+    ├── filter/             # Logging rules (AshLogFilter)
+    ├── formatters/         # UI rendering (ConsoleFormatter, JsonColorizer)
+    ├── output/             # Sinks (ConsoleAshLogOutput, AshLogStreamOutput)
+    └── presentation/       # UI Widgets (AshLogViewer)
+```
+
 ## Roadmap
 
 This package is intentionally structured (domain/data/formatters/presentation)
