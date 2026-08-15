@@ -6,10 +6,6 @@ A beautiful, Postman/Swagger-style debug logger for Flutter.
 
 Every field is **optional**: log just an endpoint for a quick trace, or include the method, cURL command, request body, and response for a full breakdown. Nothing runs in release builds unless explicitly enabled.
 
-![Console Output](assets/console_screenshot.png)
-<br/>
-![UI Viewer](assets/ui_screenshot.png)
-
 ## Features
 
 - **Rich Output**: `BartaLog.trace` / `debug` / `success` / `error` / `fatal` with beautifully colored console logs.
