@@ -1,4 +1,4 @@
-# ash_logger_example
+# logger_barta_example
 
 A new Flutter project.
 

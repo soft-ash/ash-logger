@@ -1,11 +1,11 @@
 {
   "roots": [
-    "ash_logger"
+    "logger_barta"
   ],
   "packages": [
     {
-      "name": "ash_logger",
-      "version": "0.1.0",
+      "name": "logger_barta",
+      "version": "0.1.1",
       "dependencies": [
         "flutter"
       ],

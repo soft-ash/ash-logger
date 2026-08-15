@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import '../config/ash_log_theme.dart';
+import '../config/barta_log_theme.dart';
 import '../core/ansi.dart';
 
 /// Turns any encodable value into an indented, color-highlighted JSON
@@ -9,7 +9,7 @@ import '../core/ansi.dart';
 class JsonColorizer {
   const JsonColorizer(this.theme);
 
-  final AshLogTheme theme;
+  final BartaLogTheme theme;
 
   /// Pretty-prints + colorizes. Falls back to `toString()` for anything
   /// that isn't JSON-encodable (e.g. a custom class without toJson).
@@ -61,7 +61,8 @@ class JsonColorizer {
         while (i < json.length && '0123456789.eE+-'.contains(json[i])) {
           i++;
         }
-        buffer.write('${theme.numberColor}${json.substring(start, i)}${Ansi.reset}');
+        buffer.write(
+            '${theme.numberColor}${json.substring(start, i)}${Ansi.reset}');
         continue;
       }
 

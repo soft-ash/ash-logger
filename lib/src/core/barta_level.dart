@@ -2,11 +2,11 @@
 /// the package feels familiar if you've used `package:logging` or
 /// `package:logger` — trace < debug < info < warning < error < fatal.
 ///
-/// Every [AshLog] call picks a sensible default level (e.g. `error()`
-/// is [AshLevel.error]), but you can override it per-call, and you can
-/// set a global floor with `AshLog.level = AshLevel.warning` to mute
+/// Every [BartaLog] call picks a sensible default level (e.g. `error()`
+/// is [BartaLevel.error]), but you can override it per-call, and you can
+/// set a global floor with `BartaLog.level = BartaLevel.warning` to mute
 /// noisier levels without removing the log calls from your code.
-enum AshLevel {
+enum BartaLevel {
   trace,
   debug,
   info,
@@ -14,11 +14,11 @@ enum AshLevel {
   error,
   fatal,
 
-  /// Set `AshLogConfig(level: AshLevel.off)` to silence everything.
+  /// Set `BartaLogConfig(level: BartaLevel.off)` to silence everything.
   off;
 
-  bool operator >=(AshLevel other) => index >= other.index;
-  bool operator <=(AshLevel other) => index <= other.index;
-  bool operator >(AshLevel other) => index > other.index;
-  bool operator <(AshLevel other) => index < other.index;
+  bool operator >=(BartaLevel other) => index >= other.index;
+  bool operator <=(BartaLevel other) => index <= other.index;
+  bool operator >(BartaLevel other) => index > other.index;
+  bool operator <(BartaLevel other) => index < other.index;
 }

@@ -1,93 +1,96 @@
 import 'package:flutter/foundation.dart';
 
-import 'config/ash_log_theme.dart';
-import 'core/ash_level.dart';
-import 'core/ash_log_type.dart';
-import 'data/in_memory_ash_log_repository.dart';
-import 'domain/ash_log_entry.dart';
-import 'domain/ash_log_repository.dart';
-import 'filter/ash_log_filter.dart';
+import 'config/barta_log_theme.dart';
+import 'core/barta_level.dart';
+import 'core/barta_log_type.dart';
+import 'data/in_memory_barta_log_repository.dart';
+import 'domain/barta_log_entry.dart';
+import 'domain/barta_log_repository.dart';
+import 'filter/barta_log_filter.dart';
 import 'formatters/console_formatter.dart';
-import 'output/ash_log_output.dart';
+import 'output/barta_log_output.dart';
 
 /// Public entry point of the package.
 ///
 /// Everything is a static call so you never have to thread an instance
-/// through your app — call [AshLog.init] once (optional; it has sane
-/// defaults) and then just `AshLog.debug(...)`, `AshLog.network(...)`,
-/// `AshLog.socketOn(...)` etc. from anywhere.
+/// through your app — call [BartaLog.init] once (optional; it has sane
+/// defaults) and then just `BartaLog.debug(...)`, `BartaLog.network(...)`,
+/// `BartaLog.socketOn(...)` etc. from anywhere.
 ///
 /// Design notes for future-you:
 /// - All logging methods take only optional named params. Pass what you
 ///   have; unset fields simply don't print a section.
 /// - Formatting lives in [ConsoleFormatter], storage in
-///   [AshLogRepository], filtering in [AshLogFilter], and where a log
-///   actually goes lives in [AshLogOutput] — swap any of these via
+///   [BartaLogRepository], filtering in [BartaLogFilter], and where a log
+///   actually goes lives in [BartaLogOutput] — swap any of these via
 ///   [init] without touching this class.
-/// - Nothing runs in release mode unless [AshLogConfig.logInReleaseMode]
+/// - Nothing runs in release mode unless [BartaLogConfig.logInReleaseMode]
 ///   is explicitly turned on.
-class AshLog {
-  AshLog._();
+class BartaLog {
+  BartaLog._();
 
-  static AshLogConfig _config = const AshLogConfig();
-  static AshLogRepository _repository =
-      InMemoryAshLogRepository(maxLogs: _config.maxInMemoryLogs);
+  static BartaLogConfig _config = const BartaLogConfig();
+  static BartaLogRepository _repository =
+      InMemoryBartaLogRepository(maxLogs: _config.maxInMemoryLogs);
   static ConsoleFormatter _formatter = ConsoleFormatter(_config.theme);
-  static AshLogFilter _filter = DefaultAshLogFilter(minLevel: _config.level);
-  static List<AshLogOutput> _outputs = const [ConsoleAshLogOutput()];
+  static BartaLogFilter _filter =
+      DefaultBartaLogFilter(minLevel: _config.level);
+  static List<BartaLogOutput> _outputs = const [ConsoleBartaLogOutput()];
 
   /// Call once in `main()` (before `runApp`) to customize theme, storage
   /// limits, filtering rules, or where logs actually go. Safe to skip —
   /// defaults (console output, no minimum level, in-memory history)
   /// work out of the box.
   static void init({
-    AshLogConfig? config,
-    AshLogRepository? repository,
-    AshLogFilter? filter,
-    List<AshLogOutput>? outputs,
+    BartaLogConfig? config,
+    BartaLogRepository? repository,
+    BartaLogFilter? filter,
+    List<BartaLogOutput>? outputs,
   }) {
     if (config != null) {
       _config = config;
       _formatter = ConsoleFormatter(config.theme);
     }
-    _repository =
-        repository ?? InMemoryAshLogRepository(maxLogs: _config.maxInMemoryLogs);
-    _filter = filter ?? DefaultAshLogFilter(minLevel: _config.level);
+    _repository = repository ??
+        InMemoryBartaLogRepository(maxLogs: _config.maxInMemoryLogs);
+    _filter = filter ?? DefaultBartaLogFilter(minLevel: _config.level);
     _outputs = outputs ??
-        (_config.enableConsoleLogging ? const [ConsoleAshLogOutput()] : const []);
+        (_config.enableConsoleLogging
+            ? const [ConsoleBartaLogOutput()]
+            : const []);
   }
 
   /// Change the minimum severity at runtime without touching call
-  /// sites, e.g. `AshLog.level = AshLevel.warning;` to mute
+  /// sites, e.g. `BartaLog.level = BartaLevel.warning;` to mute
   /// debug/info/network-success noise while keeping errors visible.
-  static set level(AshLevel level) {
+  static set level(BartaLevel level) {
     _config = _config.copyWith(level: level);
-    _filter = DefaultAshLogFilter(minLevel: level);
+    _filter = DefaultBartaLogFilter(minLevel: level);
   }
 
-  static AshLevel get level => _config.level;
+  static BartaLevel get level => _config.level;
 
   /// All entries currently held in memory — feed this to your own UI,
-  /// or use the bundled `AshLogViewer` widget.
-  static List<AshLogEntry> get history => _repository.getAll();
+  /// or use the bundled `BartaLogViewer` widget.
+  static List<BartaLogEntry> get history => _repository.getAll();
 
   static void clearHistory() => _repository.clear();
 
   // ─── Debug / Trace ──────────────────────────────────────────────
 
   static void trace(dynamic message, {String? tag}) {
-    _emit(AshLogEntry(
-      type: AshLogType.debug,
-      level: AshLevel.trace,
+    _emit(BartaLogEntry(
+      type: BartaLogType.debug,
+      level: BartaLevel.trace,
       tag: tag ?? 'TRACE',
       message: message?.toString(),
     ));
   }
 
   static void debug(dynamic message, {String? tag}) {
-    _emit(AshLogEntry(
-      type: AshLogType.debug,
-      level: AshLevel.debug,
+    _emit(BartaLogEntry(
+      type: BartaLogType.debug,
+      level: BartaLevel.debug,
       tag: tag ?? 'DEBUG',
       message: message?.toString(),
     ));
@@ -96,9 +99,9 @@ class AshLog {
   // ─── Generic success / error (not tied to a network call) ─────────
 
   static void success(dynamic message, {String? title}) {
-    _emit(AshLogEntry(
-      type: AshLogType.success,
-      level: AshLevel.info,
+    _emit(BartaLogEntry(
+      type: BartaLogType.success,
+      level: BartaLevel.info,
       title: title,
       message: message?.toString(),
     ));
@@ -110,9 +113,9 @@ class AshLog {
     Object? error,
     StackTrace? stackTrace,
   }) {
-    _emit(AshLogEntry(
-      type: AshLogType.error,
-      level: AshLevel.error,
+    _emit(BartaLogEntry(
+      type: BartaLogType.error,
+      level: BartaLevel.error,
       title: title,
       message: message?.toString(),
       errorObject: error,
@@ -120,7 +123,7 @@ class AshLog {
     ));
   }
 
-  /// Same as [error] but at [AshLevel.fatal] — use for crashes/unhandled
+  /// Same as [error] but at [BartaLevel.fatal] — use for crashes/unhandled
   /// exceptions you still want console history for.
   static void fatal(
     dynamic message, {
@@ -128,9 +131,9 @@ class AshLog {
     Object? error,
     StackTrace? stackTrace,
   }) {
-    _emit(AshLogEntry(
-      type: AshLogType.error,
-      level: AshLevel.fatal,
+    _emit(BartaLogEntry(
+      type: BartaLogType.error,
+      level: BartaLevel.fatal,
       title: title,
       message: message?.toString(),
       errorObject: error,
@@ -156,9 +159,9 @@ class AshLog {
     String? title,
   }) {
     final ok = success ?? ((statusCode ?? 200) < 400);
-    _emit(AshLogEntry(
-      type: AshLogType.network,
-      level: ok ? AshLevel.info : AshLevel.error,
+    _emit(BartaLogEntry(
+      type: BartaLogType.network,
+      level: ok ? BartaLevel.info : BartaLevel.error,
       method: method,
       endpoint: endpoint,
       requestBody: requestBody,
@@ -178,15 +181,16 @@ class AshLog {
     Map<String, String>? headers,
     dynamic body,
   }) {
-    final cmd = StringBuffer("curl -X '${method.toUpperCase()}' \\\n  '$endpoint'");
+    final cmd =
+        StringBuffer("curl -X '${method.toUpperCase()}' \\\n  '$endpoint'");
     headers?.forEach((k, v) => cmd.write(" \\\n  -H '$k: $v'"));
     if (body != null) {
       final bodyStr = body.toString();
       cmd.write(" \\\n  -d '${bodyStr.replaceAll("'", "'\\''")}'");
     }
-    _emit(AshLogEntry(
-      type: AshLogType.network,
-      level: AshLevel.debug,
+    _emit(BartaLogEntry(
+      type: BartaLogType.network,
+      level: BartaLevel.debug,
       method: method,
       endpoint: endpoint,
       curl: cmd.toString(),
@@ -197,18 +201,18 @@ class AshLog {
   // ─── Socket ──────────────────────────────────────────────────────
 
   static void socketOn({String? event, dynamic data}) {
-    _emit(AshLogEntry(
-      type: AshLogType.socketIn,
-      level: AshLevel.debug,
+    _emit(BartaLogEntry(
+      type: BartaLogType.socketIn,
+      level: BartaLevel.debug,
       title: event,
       data: data,
     ));
   }
 
   static void socketEmit({String? event, dynamic data}) {
-    _emit(AshLogEntry(
-      type: AshLogType.socketOut,
-      level: AshLevel.debug,
+    _emit(BartaLogEntry(
+      type: BartaLogType.socketOut,
+      level: BartaLevel.debug,
       title: event,
       data: data,
     ));
@@ -216,7 +220,7 @@ class AshLog {
 
   // ─── Internal ────────────────────────────────────────────────────
 
-  static void _emit(AshLogEntry entry) {
+  static void _emit(BartaLogEntry entry) {
     if (!kDebugMode && !_config.logInReleaseMode) return;
     if (!_filter.shouldLog(entry)) return;
 

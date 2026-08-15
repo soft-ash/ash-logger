@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 
-import '../ash_log.dart';
-import '../core/ash_log_type.dart';
-import '../domain/ash_log_entry.dart';
+import '../barta_log.dart';
+import '../core/barta_log_type.dart';
+import '../domain/barta_log_entry.dart';
 
-/// Optional in-app screen that renders [AshLog.history] as expandable
+/// Optional in-app screen that renders [BartaLog.history] as expandable
 /// cards, newest first. Not required to use the logger at all — this
 /// is purely for teams that want a Swagger-style in-app inspector.
 ///
 /// Ships with a vertical (default) and horizontal layout; pass
 /// [scrollDirection] to switch. This is intentionally a thin
-/// presentation-only widget — it reads from [AshLog.history] and does
+/// presentation-only widget — it reads from [BartaLog.history] and does
 /// no formatting logic of its own, so it stays cheap to keep in sync
 /// if the domain model grows.
-class AshLogViewer extends StatefulWidget {
-  const AshLogViewer({
+class BartaLogViewer extends StatefulWidget {
+  const BartaLogViewer({
     super.key,
     this.scrollDirection = Axis.vertical,
   });
@@ -22,19 +22,19 @@ class AshLogViewer extends StatefulWidget {
   final Axis scrollDirection;
 
   @override
-  State<AshLogViewer> createState() => _AshLogViewerState();
+  State<BartaLogViewer> createState() => _BartaLogViewerState();
 }
 
-class _AshLogViewerState extends State<AshLogViewer> {
+class _BartaLogViewerState extends State<BartaLogViewer> {
   late Axis _direction = widget.scrollDirection;
 
   @override
   Widget build(BuildContext context) {
-    final logs = AshLog.history.reversed.toList();
+    final logs = BartaLog.history.reversed.toList();
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Ash Logs'),
+        title: const Text('Barta Logs'),
         actions: [
           IconButton(
             tooltip: 'Toggle layout',
@@ -49,7 +49,7 @@ class _AshLogViewerState extends State<AshLogViewer> {
           IconButton(
             tooltip: 'Clear',
             icon: const Icon(Icons.delete_outline),
-            onPressed: () => setState(AshLog.clearHistory),
+            onPressed: () => setState(BartaLog.clearHistory),
           ),
         ],
       ),
@@ -58,39 +58,39 @@ class _AshLogViewerState extends State<AshLogViewer> {
           : _direction == Axis.vertical
               ? ListView.builder(
                   itemCount: logs.length,
-                  itemBuilder: (_, i) => _AshLogCard(entry: logs[i]),
+                  itemBuilder: (_, i) => _BartaLogCard(entry: logs[i]),
                 )
               : ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: logs.length,
                   itemBuilder: (_, i) => SizedBox(
                     width: 320,
-                    child: _AshLogCard(entry: logs[i]),
+                    child: _BartaLogCard(entry: logs[i]),
                   ),
                 ),
     );
   }
 }
 
-class _AshLogCard extends StatelessWidget {
-  const _AshLogCard({required this.entry});
+class _BartaLogCard extends StatelessWidget {
+  const _BartaLogCard({required this.entry});
 
-  final AshLogEntry entry;
+  final BartaLogEntry entry;
 
   Color get _color {
     switch (entry.type) {
-      case AshLogType.debug:
+      case BartaLogType.debug:
         return Colors.amber;
-      case AshLogType.success:
+      case BartaLogType.success:
         return Colors.green;
-      case AshLogType.error:
+      case BartaLogType.error:
         return Colors.red;
-      case AshLogType.network:
+      case BartaLogType.network:
         final ok = entry.success ?? ((entry.statusCode ?? 200) < 400);
         return ok ? Colors.green : Colors.red;
-      case AshLogType.socketIn:
+      case BartaLogType.socketIn:
         return Colors.purple;
-      case AshLogType.socketOut:
+      case BartaLogType.socketOut:
         return Colors.cyan;
     }
   }
@@ -117,7 +117,8 @@ class _AshLogCard extends StatelessWidget {
         ),
         children: [
           if (entry.requestBody != null) _field('Request', entry.requestBody),
-          if (entry.responseBody != null) _field('Response', entry.responseBody),
+          if (entry.responseBody != null)
+            _field('Response', entry.responseBody),
           if (entry.data != null) _field('Data', entry.data),
           if (entry.curl != null) _field('cURL', entry.curl),
           if (entry.message != null) _field('Message', entry.message),

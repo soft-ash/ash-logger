@@ -1,10 +1,10 @@
 import '../core/ansi.dart';
-import '../core/ash_level.dart';
+import '../core/barta_level.dart';
 
 /// How much visual detail a printed block should have.
 /// Extend this enum later (e.g. `compactSingleLine`) without touching
-/// anything that already depends on [AshLogTheme].
-enum AshLogStyle {
+/// anything that already depends on [BartaLogTheme].
+enum BartaLogStyle {
   /// Full Postman/Swagger-style bordered box (default).
   boxed,
 
@@ -15,7 +15,7 @@ enum AshLogStyle {
 /// Every visual knob of the package lives here so a user can hand you
 /// their own instance and change colors, borders, or the print style
 /// without touching package internals.
-class AshLogTheme {
+class BartaLogTheme {
   final String debugColor;
   final String successColor;
   final String errorColor;
@@ -29,11 +29,11 @@ class AshLogTheme {
   final String nullColor;
   final String punctuationColor;
 
-  final AshLogStyle style;
+  final BartaLogStyle style;
   final int boxWidth;
   final String borderChar;
 
-  const AshLogTheme({
+  const BartaLogTheme({
     this.debugColor = Ansi.yellow,
     this.successColor = Ansi.green,
     this.errorColor = Ansi.red,
@@ -45,12 +45,12 @@ class AshLogTheme {
     this.numberColor = Ansi.yellow,
     this.nullColor = Ansi.gray,
     this.punctuationColor = Ansi.gray,
-    this.style = AshLogStyle.boxed,
+    this.style = BartaLogStyle.boxed,
     this.boxWidth = 72,
     this.borderChar = '─',
   });
 
-  AshLogTheme copyWith({
+  BartaLogTheme copyWith({
     String? debugColor,
     String? successColor,
     String? errorColor,
@@ -62,11 +62,11 @@ class AshLogTheme {
     String? numberColor,
     String? nullColor,
     String? punctuationColor,
-    AshLogStyle? style,
+    BartaLogStyle? style,
     int? boxWidth,
     String? borderChar,
   }) {
-    return AshLogTheme(
+    return BartaLogTheme(
       debugColor: debugColor ?? this.debugColor,
       successColor: successColor ?? this.successColor,
       errorColor: errorColor ?? this.errorColor,
@@ -85,40 +85,40 @@ class AshLogTheme {
   }
 }
 
-/// Global behavioural switches — separate from [AshLogTheme] because
+/// Global behavioural switches — separate from [BartaLogTheme] because
 /// these affect *whether/where* something is logged, not how it looks.
-class AshLogConfig {
+class BartaLogConfig {
   final bool enableConsoleLogging;
   final bool enableInMemoryLogging;
   final bool logInReleaseMode;
   final int maxInMemoryLogs;
 
-  /// Minimum severity that gets through. `AshLevel.trace` (default)
-  /// logs everything; e.g. `AshLevel.warning` mutes debug/info/network
+  /// Minimum severity that gets through. `BartaLevel.trace` (default)
+  /// logs everything; e.g. `BartaLevel.warning` mutes debug/info/network
   /// success traces and only shows warning/error/fatal. Change at
-  /// runtime with `AshLog.level = AshLevel.warning`.
-  final AshLevel level;
+  /// runtime with `BartaLog.level = BartaLevel.warning`.
+  final BartaLevel level;
 
-  final AshLogTheme theme;
+  final BartaLogTheme theme;
 
-  const AshLogConfig({
+  const BartaLogConfig({
     this.enableConsoleLogging = true,
     this.enableInMemoryLogging = true,
     this.logInReleaseMode = false,
     this.maxInMemoryLogs = 200,
-    this.level = AshLevel.trace,
-    this.theme = const AshLogTheme(),
+    this.level = BartaLevel.trace,
+    this.theme = const BartaLogTheme(),
   });
 
-  AshLogConfig copyWith({
+  BartaLogConfig copyWith({
     bool? enableConsoleLogging,
     bool? enableInMemoryLogging,
     bool? logInReleaseMode,
     int? maxInMemoryLogs,
-    AshLevel? level,
-    AshLogTheme? theme,
+    BartaLevel? level,
+    BartaLogTheme? theme,
   }) {
-    return AshLogConfig(
+    return BartaLogConfig(
       enableConsoleLogging: enableConsoleLogging ?? this.enableConsoleLogging,
       enableInMemoryLogging:
           enableInMemoryLogging ?? this.enableInMemoryLogging,

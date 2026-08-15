@@ -1,4 +1,4 @@
-package com.example.ash_logger_example
+package com.example.logger_barta_example
 
 import io.flutter.embedding.android.FlutterActivity
 

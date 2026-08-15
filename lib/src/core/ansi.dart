@@ -1,5 +1,5 @@
 /// Standard ANSI escape codes used across the package.
-/// Kept in one place so a custom [AshLogTheme] can override any of them.
+/// Kept in one place so a custom [BartaLogTheme] can override any of them.
 class Ansi {
   const Ansi._();
 

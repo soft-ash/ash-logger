@@ -1,5 +1,5 @@
-name: ash_logger_example
-description: Demonstrates the ash_logger package.
+name: logger_barta_example
+description: Demonstrates the logger_barta package.
 publish_to: 'none'
 version: 0.1.0
 
@@ -10,7 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  ash_logger:
+  logger_barta:
     path: ../
 
 dev_dependencies:

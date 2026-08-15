@@ -1,16 +1,16 @@
-import '../core/ash_level.dart';
-import '../core/ash_log_type.dart';
+import '../core/barta_level.dart';
+import '../core/barta_log_type.dart';
 
 /// A single log entry. Only [type] and [level] are mandatory — callers
 /// pass just the fields relevant to what they're logging.
 ///
-/// This is the shape stored in memory (for `AshLogViewer`), the shape
+/// This is the shape stored in memory (for `BartaLogViewer`), the shape
 /// handed to the console formatter, and the shape sent to every
-/// `AshLogOutput` — extending the package later (e.g. adding
+/// `BartaLogOutput` — extending the package later (e.g. adding
 /// `duration`) means adding one field here.
-class AshLogEntry {
-  final AshLogType type;
-  final AshLevel level;
+class BartaLogEntry {
+  final BartaLogType type;
+  final BartaLevel level;
   final DateTime timestamp;
 
   final String? title;
@@ -35,7 +35,7 @@ class AshLogEntry {
   final Object? errorObject;
   final StackTrace? stackTrace;
 
-  AshLogEntry({
+  BartaLogEntry({
     required this.type,
     required this.level,
     this.title,
