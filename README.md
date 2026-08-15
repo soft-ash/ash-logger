@@ -28,7 +28,7 @@ Add the package to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  ash_logger: ^0.1.0
+  ash_logger: ^0.1.1
 ```
 
 ## Getting Started
