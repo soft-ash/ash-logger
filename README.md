@@ -83,8 +83,7 @@ BartaLog.network(
 **Console Output:**
 
 <p align="center">
-  <img src="assets/screenshot_5_16_10.png" width="650" alt="Console Output">
-  <br>
+
   <img src="assets/screenshot_5_20_07.png" width="650" alt="Console Output">
   <br>
   <img src="assets/screenshot_5_20_26.png" width="650" alt="Console Output">
