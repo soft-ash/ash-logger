@@ -15,8 +15,18 @@ class JsonColorizer {
   /// that isn't JSON-encodable (e.g. a custom class without toJson).
   String render(dynamic value) {
     if (value == null) return '${theme.nullColor}null${Ansi.reset}';
+    
+    var decodedValue = value;
+    if (value is String) {
+      try {
+        decodedValue = jsonDecode(value);
+      } catch (_) {
+        // Not a valid JSON string, leave it as is
+      }
+    }
+
     try {
-      final raw = const JsonEncoder.withIndent('  ').convert(value);
+      final raw = const JsonEncoder.withIndent('  ').convert(decodedValue);
       return _colorize(raw);
     } catch (_) {
       return value.toString();

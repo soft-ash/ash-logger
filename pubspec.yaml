@@ -1,6 +1,6 @@
 name: logger_barta
 description: A colorful, Postman/Swagger-style debug logger for Flutter — debug prints, API success/error, cURL, and socket in/out logging, fully optional fields, themeable, and safe in release builds.
-version: 0.1.1
+version: 0.1.2
 homepage: https://github.com/soft-ash/logger_barta
 repository: https://github.com/soft-ash/logger_barta
 issue_tracker: https://github.com/soft-ash/logger_barta/issues
