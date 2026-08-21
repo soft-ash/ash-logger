@@ -6,32 +6,7 @@ All notable changes to **logger_barta** are documented here. This project follow
 
 ---
 
-## [0.1.3] — Latest
-
-### Enhancements
-
-- **Complete README Rewrite:** Re-wrote the entire documentation to clearly explain the package's benefits, describe all 5 major features in detail, and explain how and when to use them.
-
----
-
-## [0.1.2]
-
-###  Bug Fixes
-
-- **JSON String Formatting** — Fixed an issue in `JsonColorizer` where raw JSON strings passed to `requestBody` or `responseBody` were escaped into a single line. They are now properly decoded, pretty-printed, and syntax-highlighted.
-- **README Updates** — Expanded documentation to showcase all available fields for network logging.
-
----
-
-## [0.1.1]
-
-###  Bug Fixes
-
-- **README rendering fix** — Replaced HTML `<img>` tags with standard Markdown image tags in `README.md` to ensure screenshots render correctly on pub.dev.
-
----
-
-## [0.1.0] — Initial Release
+## [0.1.4] — Initial Release
 
 ###  Features
 
