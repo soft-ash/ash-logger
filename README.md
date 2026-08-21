@@ -24,7 +24,7 @@ Add the package to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  logger_barta: ^0.1.3
+  logger_barta: ^0.1.4
 ```
 
 Then run:
