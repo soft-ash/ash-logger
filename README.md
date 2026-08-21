@@ -84,15 +84,15 @@ BartaLog.network(
 
 <p align="center">
 
-  <img src="https://raw.githubusercontent.com/soft-ash/logger_barta/main/assets/screenshot_5_20_07.png" width="650" alt="Console Output">
+  <img src="https://raw.githubusercontent.com/soft-ash/ash-logger/main/assets/screenshot_5_20_07.png" width="650" alt="Console Output">
   <br>
-  <img src="https://raw.githubusercontent.com/soft-ash/logger_barta/main/assets/screenshot_5_20_26.png" width="650" alt="Console Output">
+  <img src="https://raw.githubusercontent.com/soft-ash/ash-logger/main/assets/screenshot_5_20_26.png" width="650" alt="Console Output">
   <br>
-  <img src="https://raw.githubusercontent.com/soft-ash/logger_barta/main/assets/screenshot_5_20_42.png" width="650" alt="Console Output">
+  <img src="https://raw.githubusercontent.com/soft-ash/ash-logger/main/assets/screenshot_5_20_42.png" width="650" alt="Console Output">
   <br>
-  <img src="https://raw.githubusercontent.com/soft-ash/logger_barta/main/assets/screenshot_5_21_00.png" width="650" alt="Console Output">
+  <img src="https://raw.githubusercontent.com/soft-ash/ash-logger/main/assets/screenshot_5_21_00.png" width="650" alt="Console Output">
   <br>
-  <img src="https://raw.githubusercontent.com/soft-ash/logger_barta/main/assets/screenshot_5_21_18.png" width="650" alt="Console Output">
+  <img src="https://raw.githubusercontent.com/soft-ash/ash-logger/main/assets/screenshot_5_21_18.png" width="650" alt="Console Output">
 </p>
 
 
@@ -136,7 +136,7 @@ streamOutput.stream
 ### In-App Log Viewer
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/soft-ash/logger_barta/main/assets/ui_screenshot.png" width="300" alt="UI Screenshot">
+  <img src="https://raw.githubusercontent.com/soft-ash/ash-logger/main/assets/ui_screenshot.png" width="300" alt="UI Screenshot">
 </p>
 
 ```dart
