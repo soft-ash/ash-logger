@@ -6,7 +6,15 @@ All notable changes to **logger_barta** are documented here. This project follow
 
 ---
 
-## [0.1.2] — Latest
+## [0.1.3] — Latest
+
+### Enhancements
+
+- **Complete README Rewrite:** Re-wrote the entire documentation to clearly explain the package's benefits, describe all 5 major features in detail, and explain how and when to use them.
+
+---
+
+## [0.1.2]
 
 ###  Bug Fixes
 

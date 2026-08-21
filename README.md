@@ -1,22 +1,22 @@
-<aside>
+# Logger Barta
 
-**logger_barta** · A beautiful, Postman/Swagger-style debug logger for Flutter. Print API calls, socket events, and debug messages as clean, bordered boxes with syntax-highlighted JSON.
+**logger_barta** is a structured logging and debugging package for Flutter.
 
-</aside>
+It makes console logs easier to read and debug by providing clean output for **application logs, API requests/responses, WebSocket events, errors, cURL commands, and in-app log viewing**.
 
-## Features
+## Why Logger Barta?
 
-- **Rich Output** — `BartaLog.trace` / `debug` / `success` / `error` / `fatal` with beautifully colored console logs
-- **API Inspector** — `BartaLog.network` logs HTTP requests/responses like Postman
-- **cURL Generator** — `BartaLog.curl` creates standalone, ready-to-use cURL commands
-- **WebSockets** — `BartaLog.socketOn` and `BartaLog.socketEmit` for real-time traffic tracking
-- **Log Levels** — Control verbosity at runtime (`BartaLog.level = BartaLevel.warning`) to mute noise without removing code
-- **Pluggable Filters & Outputs** — Send logs to Crashlytics, Sentry, or custom files using `BartaLogFilter` and `BartaLogOutput`
-- **In-App Viewer** — Optional `BartaLogViewer` widget provides a searchable, Swagger-style in-app UI
-- **Performance First** — Bounded in-memory history (circular buffer) prevents memory leaks; zero-cost in release mode
-- **Cross-Platform** — iOS, Android, Web, macOS, Windows, and Linux
+Instead of dealing with unreadable `print()` output, Logger Barta gives you one consistent logging system for your Flutter application.
 
----
+* Structured and readable console logs
+* Postman-style API debugging
+* WebSocket and Socket.IO monitoring
+* Formatted JSON request/response data
+* Error and stack trace logging
+* Log levels and custom filters
+* Custom log outputs
+* In-app log viewer
+* Bounded log storage for better memory usage
 
 ## Installation
 
@@ -24,133 +24,224 @@ Add the package to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  logger_barta: ^0.1.2
+  logger_barta: ^0.1.3
 ```
 
----
+Then run:
 
-## Getting Started
+```bash
+flutter pub get
+```
 
-Initialize once in `main.dart` before running your app.
+Import:
 
 ```dart
 import 'package:logger_barta/logger_barta.dart';
+```
 
+## Quick Start
+
+Basic logging works without initialization:
+
+```dart
+BartaLog.debug('User opened profile');
+
+BartaLog.success('Profile loaded successfully');
+
+BartaLog.error(
+  'Failed to load profile',
+  error: exception,
+  stackTrace: stackTrace,
+);
+```
+
+For custom configuration:
+
+```dart
 void main() {
   BartaLog.init();
+
   runApp(const MyApp());
 }
 ```
 
----
+## API Logging
 
-## Usage
-
-### Basic Logging
+Log HTTP requests, responses, status codes, JSON data, and cURL commands.
 
 ```dart
-BartaLog.debug('User tapped checkout', tag: 'UI');
-BartaLog.success('Data loaded successfully');
-
-try {
-  await api.submit();
-} catch (e, st) {
-  BartaLog.error('Submit failed', title: 'Checkout', error: e, stackTrace: st);
-}
-```
-
-### Network & API Calls
-
-Every field is **optional** — log just an endpoint for a quick trace, or include the full breakdown.
-
-```dart
-// Quick GET trace
-BartaLog.network(endpoint: '/users/42');
-
-// Detailed API log
 BartaLog.network(
   title: 'Create Post',
   method: 'POST',
   endpoint: '/posts',
   statusCode: 201,
   success: true,
-  requestBody: '{"title": "Hello world"}',
-  responseBody: {'id': 1},
-  curl: "curl -X 'POST' '/posts' -d '{\"title\":\"Hello world\"}'",
+  requestBody: {
+    'title': 'Hello World',
+  },
+  responseBody: {
+    'id': 1,
+  },
+  curl: "curl -X POST '/posts'",
 );
 ```
 
-**Console Output:**
+All network fields are optional:
 
-<p align="center">
-
-  <img src="https://raw.githubusercontent.com/soft-ash/ash-logger/main/assets/screenshot_5_20_07.png" width="650" alt="Console Output">
-  <br>
-  <img src="https://raw.githubusercontent.com/soft-ash/ash-logger/main/assets/screenshot_5_20_26.png" width="650" alt="Console Output">
-  <br>
-  <img src="https://raw.githubusercontent.com/soft-ash/ash-logger/main/assets/screenshot_5_20_42.png" width="650" alt="Console Output">
-  <br>
-  <img src="https://raw.githubusercontent.com/soft-ash/ash-logger/main/assets/screenshot_5_21_00.png" width="650" alt="Console Output">
-  <br>
-  <img src="https://raw.githubusercontent.com/soft-ash/ash-logger/main/assets/screenshot_5_21_18.png" width="650" alt="Console Output">
-</p>
-
-
-
-### WebSockets
-
-```dart
-BartaLog.socketEmit(event: 'message:send', data: {'text': 'hi'});
-BartaLog.socketOn(event: 'message:received', data: {'text': 'hey'});
+```text
+title
+method
+endpoint
+statusCode
+success
+requestBody
+responseBody
+curl
 ```
 
-### Muting Logs (Levels)
+## WebSocket / Socket.IO
+
+Track outgoing and incoming socket events:
 
 ```dart
-// Mute everything below warning
+BartaLog.socketEmit(
+  event: 'message:send',
+  data: {'text': 'Hello'},
+);
+
+BartaLog.socketOn(
+  event: 'message:received',
+  data: {'text': 'Hello back'},
+);
+```
+
+Useful for chat, notifications, live feeds, WebRTC signaling, and other real-time features.
+
+## Log Levels
+
+Control which logs should be displayed:
+
+```dart
 BartaLog.level = BartaLevel.warning;
-
-// Or configure during initialization
-BartaLog.init(config: const BartaLogConfig(level: BartaLevel.info));
 ```
 
-### Advanced: Custom Filters & Crashlytics Integration
+## Custom Filters
+
+Exclude logs you do not need:
 
 ```dart
 class MuteHealthCheck implements BartaLogFilter {
   @override
-  bool shouldLog(BartaLogEntry entry) => entry.endpoint != '/health';
+  bool shouldLog(BartaLogEntry entry) {
+    return entry.endpoint != '/health';
+  }
 }
 
-final streamOutput = BartaLogStreamOutput();
 BartaLog.init(
   filter: MuteHealthCheck(),
-  outputs: [const ConsoleBartaLogOutput(), streamOutput],
 );
-
-streamOutput.stream
-    .where((e) => e.level == BartaLevel.error || e.level == BartaLevel.fatal)
-    .listen((e) => MyCrashReporter.record(e.message, e.errorObject, e.stackTrace));
 ```
 
-### In-App Log Viewer
+## Custom Outputs
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/soft-ash/ash-logger/main/assets/ui_screenshot.png" width="300" alt="UI Screenshot">
-</p>
+Send logs to your own monitoring or crash-reporting system:
 
 ```dart
-Navigator.push(context, MaterialPageRoute(
-  builder: (_) => const BartaLogViewer(scrollDirection: Axis.vertical),
-));
+final output = BartaLogStreamOutput();
+
+BartaLog.init(
+  outputs: [
+    const ConsoleBartaLogOutput(),
+    output,
+  ],
+);
+
+output.stream.listen((entry) {
+  // Send entry to your custom service.
+});
 ```
 
----
+## In-App Log Viewer
+
+View captured logs directly inside your Flutter application:
+
+```dart
+Navigator.push(
+  context,
+  MaterialPageRoute(
+    builder: (_) => const BartaLogViewer(
+      scrollDirection: Axis.vertical,
+    ),
+  ),
+);
+```
+
+This is useful for debugging physical devices and QA testing without connecting the device to a development machine.
+
+## Screenshots
+
+### Debug
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/soft-ash/ash-logger/main/assets/screenshot_5_20_07.png" width="650" alt="Logger Barta Debug Log">
+</p>
+
+### Network
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/soft-ash/ash-logger/main/assets/screenshot_5_20_42.png" width="650" alt="Logger Barta Network Log">
+</p>
+
+### Socket
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/soft-ash/ash-logger/main/assets/screenshot_5_21_00.png" width="650" alt="Logger Barta Socket Log">
+</p>
+
+### In-App Viewer
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/soft-ash/ash-logger/main/assets/ui_screenshot.png" width="300" alt="Logger Barta In-App Log Viewer">
+</p>
+
+## Recommended For
+
+Logger Barta is useful for Flutter applications that use:
+
+* REST APIs
+* WebSockets / Socket.IO
+* Real-time communication
+* Complex JSON payloads
+* Custom error tracking
+* Physical-device debugging
+* QA testing
+
+## Production Safety
+
+Avoid logging sensitive information such as:
+
+* Passwords
+* Authentication tokens
+* API secrets
+* Payment information
+* Private user data
+
+Configure log levels, filters, and outputs appropriately for production builds.
 
 ## Contributing
 
-Found a bug or have a feature request? Issues and pull requests are always welcome!
+Issues and pull requests are welcome.
+
+When reporting a bug, please include your Flutter/Dart version, package version, platform, reproduction steps, and relevant logs.
+
+## License
+
+See the `LICENSE` file for licensing information.
+
+## Author
+
+Developed by **dev_ash**.
 
 ---
 
-*Developed by dev_ash*.
+**Logger Barta** — structured logs for better Flutter debugging.
